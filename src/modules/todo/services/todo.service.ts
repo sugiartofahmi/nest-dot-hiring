@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { TodoRepository } from '../repositories/todo.repository';
 import { ApiService } from '../../api/services/api.service';
+import { PaginateRequest } from 'src/contracts/common';
 @Injectable()
 export class TodoService {
   constructor(
@@ -8,8 +9,8 @@ export class TodoService {
     private readonly apiService: ApiService,
   ) {}
 
-  async pagination() {
-    return await this.todoRepository.pagination();
+  async pagination(request: PaginateRequest) {
+    return await this.todoRepository.pagination(request);
   }
 
   async detail(id: number) {

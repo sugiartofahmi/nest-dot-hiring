@@ -3,12 +3,13 @@ import { NodePgDatabase } from 'drizzle-orm/node-postgres';
 import { DRIZZLE } from '../../../infrastructure/drizzle/drizzle.module';
 import * as schema from '../../../databases/schema';
 import { eq, desc } from 'drizzle-orm';
+import { PaginateRequest } from 'src/contracts/common';
 
 @Injectable()
 export class TodoRepository {
   constructor(@Inject(DRIZZLE) private repo: NodePgDatabase<typeof schema>) {}
 
-  async pagination() {
+  async pagination(request: PaginateRequest) {
     return await this.repo
       .select()
       .from(schema.todos)

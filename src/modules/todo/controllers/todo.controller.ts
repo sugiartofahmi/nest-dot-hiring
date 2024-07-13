@@ -10,13 +10,17 @@ import {
   Query,
 } from '@nestjs/common';
 import { TodoService } from '../services/todo.service';
+import { TodoCreateRequest } from '../requests/todo-create.request';
+import { TodoPutRequest } from '../requests/todo-put.request';
+import { TodoPatchRequest } from '../requests/todo-patch.request';
+import { PaginateRequest } from 'src/contracts/common';
 @Controller('todos')
 export class TodoController {
   constructor(private readonly todoService: TodoService) {}
 
   @Get()
-  async index(@Query() reguest: any): Promise<any> {
-    return this.todoService.pagination();
+  async index(@Query() reguest: PaginateRequest): Promise<any> {
+    return this.todoService.pagination(reguest);
   }
 
   @Get(':id')
@@ -25,19 +29,22 @@ export class TodoController {
   }
 
   @Post()
-  async create(@Body() request: any): Promise<any> {
+  async create(@Body() request: TodoCreateRequest): Promise<any> {
     return this.todoService.create(request);
   }
 
   @Put(':id')
-  async putUpdate(@Param('id') id: number, @Body() request: any): Promise<any> {
+  async putUpdate(
+    @Param('id') id: number,
+    @Body() request: TodoPutRequest,
+  ): Promise<any> {
     return this.todoService.update(id, request);
   }
 
   @Patch(':id')
   async patchUpdate(
     @Param('id') id: number,
-    @Body() request: any,
+    @Body() request: TodoPatchRequest,
   ): Promise<any> {
     return this.todoService.update(id, request);
   }

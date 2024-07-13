@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { UserRepository } from '../repositories/user.repository';
+import { PaginateRequest } from 'src/contracts/common';
 
 @Injectable()
 export class UserSevice {
   constructor(private readonly userRepository: UserRepository) {}
 
-  async pagination() {
-    return await this.userRepository.pagination();
+  async pagination(request: PaginateRequest) {
+    return await this.userRepository.pagination(request);
   }
 
   async detail(id: number) {

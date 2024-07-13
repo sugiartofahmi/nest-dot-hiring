@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { TodoRepository } from '../repositories/todo.repository';
 import { ApiService } from '../../api/services/api.service';
-import { PaginateRequest } from 'src/contracts/common';
+import { PaginateRequest, TPaginateResponse } from 'src/contracts/common';
+import { TTodo } from 'src/contracts/todo/todo.contract';
 @Injectable()
 export class TodoService {
   constructor(
@@ -9,25 +10,26 @@ export class TodoService {
     private readonly apiService: ApiService,
   ) {}
 
-  async pagination(request: PaginateRequest) {
+  async pagination(
+    request: PaginateRequest,
+  ): Promise<TPaginateResponse<TTodo>> {
     return await this.todoRepository.pagination(request);
   }
 
-  async detail(id: number) {
+  async detail(id: number): Promise<TTodo> {
     const data = await this.apiService.findOne(id);
-    console.log(data);
     return await this.todoRepository.findOne(id);
   }
 
-  async create(data: any) {
+  async create(data: any): Promise<boolean> {
     return await this.todoRepository.create(data);
   }
 
-  async delete(id: number) {
+  async delete(id: number): Promise<boolean> {
     return await this.todoRepository.delete(id);
   }
 
-  async update(id: number, data: any) {
+  async update(id: number, data: any): Promise<boolean> {
     return await this.todoRepository.update(id, data);
   }
 }

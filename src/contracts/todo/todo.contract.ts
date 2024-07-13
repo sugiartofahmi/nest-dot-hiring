@@ -5,8 +5,8 @@ export const TodoSchema = z.object({
   title: z.string(),
   completed: z.boolean(),
   userId: z.number(),
-  createdAt: z.date().optional(),
-  updatedAt: z.date().optional(),
+  createdAt: z.coerce.date().nullable(),
+  updatedAt: z.coerce.date().nullable(),
 });
 export const TodoCreateSchema = TodoSchema.omit({ id: true });
 export const TodoPutSchema = TodoCreateSchema;

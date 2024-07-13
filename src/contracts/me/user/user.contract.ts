@@ -5,8 +5,8 @@ export const UserSchema = z.object({
   fullName: z.string(),
   email: z.string(),
   password: z.string(),
-  createdAt: z.date().optional(),
-  updatedAt: z.date().optional(),
+  createdAt: z.coerce.date().nullable(),
+  updatedAt: z.coerce.date().nullable(),
 });
 
 export const UserCreateSchema = UserSchema.omit({ id: true });

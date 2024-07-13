@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { HttpService } from 'nestjs-http-promise';
 import { config } from 'src/common/config';
+import { TTodo } from 'src/contracts/todo/todo.contract';
 
 @Injectable()
 export class ApiService {
@@ -8,12 +9,7 @@ export class ApiService {
 
   private logger: Logger = new Logger(ApiService.name);
 
-  async findOne(id: number): Promise<{
-    userId: number;
-    id: number;
-    title: string;
-    completed: boolean;
-  }> {
+  async findOne(id: number): Promise<TTodo | null> {
     try {
       const result = await this.httpService.get(
         `${config.apiIntegration.url}/todos/${id}`,
@@ -27,7 +23,7 @@ export class ApiService {
     }
   }
 
-  async create(data: any) {
+  async create(data: any): Promise<TTodo | null> {
     try {
       const result = await this.httpService.post(
         `${config.apiIntegration.url}/todos/`,
@@ -40,7 +36,7 @@ export class ApiService {
     }
   }
 
-  async delete(id: number) {
+  async delete(id: number): Promise<TTodo | null> {
     try {
       const result = await this.httpService.delete(
         `${config.apiIntegration.url}/todos/${id}`,
@@ -54,7 +50,7 @@ export class ApiService {
     }
   }
 
-  async putUpdate(id: number, data: any) {
+  async putUpdate(id: number, data: any): Promise<TTodo | null> {
     try {
       const result = await this.httpService.put(
         `${config.apiIntegration.url}/todos/${id}`,
@@ -70,7 +66,7 @@ export class ApiService {
     }
   }
 
-  async patchUpdate(id: number, data: any) {
+  async patchUpdate(id: number, data: any): Promise<TTodo | null> {
     try {
       const result = await this.httpService.patch(
         `${config.apiIntegration.url}/todos/${id}`,

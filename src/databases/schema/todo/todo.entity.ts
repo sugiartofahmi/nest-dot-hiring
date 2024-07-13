@@ -5,7 +5,7 @@ import { relations } from 'drizzle-orm';
 
 export const todos = pgTable('todos', {
   title: text('title').notNull(),
-  completed: boolean('completed').default(false),
+  completed: boolean('completed').notNull().default(false),
   userId: integer('user_id')
     .notNull()
     .references(() => users.id, {

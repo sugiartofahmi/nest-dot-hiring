@@ -1,19 +1,27 @@
+import { createSelectSchema } from 'drizzle-zod';
+import { todos } from 'src/databases/schema';
 import { z } from 'zod';
 
-export const TodoSchema = z.object({
-  id: z.number(),
+export const TodoSchema = createSelectSchema(todos).omit({
+  userId: true,
+});
+export const TodoCreateSchema = z.object({
+  title: z.string(),
+  completed: z.boolean().optional(),
+  id: z.number().optional(),
+});
+export const TodoPutSchema = z.object({
   title: z.string(),
   completed: z.boolean(),
-  userId: z.number(),
-  createdAt: z.date().optional(),
-  updatedAt: z.date().optional(),
 });
-export const TodoCreateSchema = TodoSchema.omit({ id: true });
-export const TodoPutSchema = TodoCreateSchema;
 export const TodoPatchSchema = z.object({
-  completed: z.boolean().optional(),
   title: z.string().optional(),
-  userId: z.number().optional(),
+  completed: z.boolean().optional(),
 });
 
 export type TTodo = z.infer<typeof TodoSchema>;
+export type TTodoApiResponse = {
+  id: number;
+  title: string;
+  completed: boolean;
+};

@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  NotFoundException,
   Param,
   Patch,
   Post,
@@ -13,45 +14,70 @@ import { UserSevice } from '../services/user.service';
 import { UserCreateRequest } from '../requests/user-create.request';
 import { UserPutRequest } from '../requests/user-put.request';
 import { UserPatchRequest } from '../requests/user-patch.request';
-import { PaginateRequest } from 'src/contracts/common';
+import {
+  PaginateRequest,
+  TPaginateResponse,
+  TResponse,
+} from 'src/contracts/common';
+import { TUser } from 'src/contracts/me/user/user.contract';
 
 @Controller('users')
 export class UserController {
   constructor(private readonly userSevice: UserSevice) {}
 
   @Get()
-  async index(@Query() reguest: PaginateRequest): Promise<any> {
-    return this.userSevice.pagination(reguest);
+  async index(
+    @Query() reguest: PaginateRequest,
+  ): Promise<TPaginateResponse<TUser>> {
+    return await this.userSevice.pagination(reguest);
   }
 
   @Get(':id')
-  async detail(@Param('id') id: number): Promise<any> {
-    return this.userSevice.detail(id);
+  async detail(@Param('id') id: number): Promise<TResponse<TUser>> {
+    const data = await this.userSevice.findOne(id);
+    if (!data) {
+      throw new NotFoundException('User not found');
+    }
+    return {
+      data,
+    };
   }
 
   @Post()
-  async create(@Body() request: UserCreateRequest): Promise<any> {
-    return this.userSevice.create(request);
+  async create(@Body() request: UserCreateRequest): Promise<TResponse<TUser>> {
+    await this.userSevice.create(request);
+    return {
+      message: 'User created successfully',
+    };
   }
 
   @Put(':id')
   async putUpdate(
     @Param('id') id: number,
     @Body() request: UserPutRequest,
-  ): Promise<any> {
-    return this.userSevice.update(id, request);
+  ): Promise<TResponse<TUser>> {
+    await this.userSevice.update(id, request);
+    return {
+      message: 'User created successfully',
+    };
   }
 
   @Patch(':id')
   async patchUpdate(
     @Param('id') id: number,
     @Body() request: UserPatchRequest,
-  ): Promise<any> {
-    return this.userSevice.update(id, request);
+  ): Promise<TResponse<TUser>> {
+    await this.userSevice.update(id, request);
+    return {
+      message: 'User updated successfully',
+    };
   }
 
   @Delete(':id')
-  async delete(@Param('id') id: number): Promise<any> {
-    return this.userSevice.delete(id);
+  async delete(@Param('id') id: number): Promise<TResponse<TUser>> {
+    await this.userSevice.delete(id);
+    return {
+      message: 'User deleted successfully',
+    };
   }
 }

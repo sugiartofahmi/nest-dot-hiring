@@ -1,0 +1,1 @@
+ALTER TABLE "todos" ADD CONSTRAINT "todos_title_unique" UNIQUE("title");

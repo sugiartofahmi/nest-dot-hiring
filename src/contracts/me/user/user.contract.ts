@@ -1,15 +1,16 @@
+import { createSelectSchema } from 'drizzle-zod';
+import { users } from 'src/databases/schema';
 import { z } from 'zod';
 
-export const UserSchema = z.object({
-  id: z.number(),
+export const UserSchema = createSelectSchema(users, {
+  password: z.string().optional(),
+});
+
+export const UserCreateSchema = z.object({
   fullName: z.string(),
   email: z.string(),
   password: z.string(),
-  createdAt: z.date().optional(),
-  updatedAt: z.date().optional(),
 });
-
-export const UserCreateSchema = UserSchema.omit({ id: true });
 export const UserPutSchema = UserCreateSchema;
 export const UserPatchSchema = z.object({
   fullName: z.string().optional(),

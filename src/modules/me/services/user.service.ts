@@ -1,15 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { UserRepository } from '../repositories/user.repository';
+import { PaginateRequest } from 'src/contracts/common';
 
 @Injectable()
 export class UserSevice {
   constructor(private readonly userRepository: UserRepository) {}
 
-  async pagination() {
-    return await this.userRepository.pagination();
+  async pagination(request: PaginateRequest) {
+    return await this.userRepository.pagination(request);
   }
 
-  async detail(id: string) {
+  async detail(id: number) {
     return await this.userRepository.findOne(id);
   }
 
@@ -17,15 +18,11 @@ export class UserSevice {
     return await this.userRepository.create(data);
   }
 
-  async delete(id: string) {
+  async delete(id: number) {
     return await this.userRepository.delete(id);
   }
 
-  async update(id: string, data: any) {
+  async update(id: number, data: any) {
     return await this.userRepository.update(id, data);
-  }
-
-  async bulkDelete(ids: string[]) {
-    return await this.userRepository.bulkDelete(ids);
   }
 }

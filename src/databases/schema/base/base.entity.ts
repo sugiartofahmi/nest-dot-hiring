@@ -1,7 +1,7 @@
-import { timestamp, uuid } from 'drizzle-orm/pg-core';
+import { timestamp, integer } from 'drizzle-orm/pg-core';
 
 export const base = {
-  id: uuid('id').defaultRandom().primaryKey(),
+  id: integer('id').generatedByDefaultAsIdentity().primaryKey(),
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
 };

@@ -4,13 +4,11 @@ import { users } from '../me/user.entity';
 import { relations } from 'drizzle-orm';
 
 export const todos = pgTable('todos', {
-  title: text('title').notNull(),
-  completed: boolean('completed').notNull().default(false),
-  userId: integer('user_id')
-    .notNull()
-    .references(() => users.id, {
-      onDelete: 'cascade',
-    }),
+  title: text('title'),
+  completed: boolean('completed').default(false),
+  userId: integer('user_id').references(() => users.id, {
+    onDelete: 'cascade',
+  }),
   ...base,
 });
 

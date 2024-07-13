@@ -6,6 +6,9 @@ import { eq, desc } from 'drizzle-orm';
 import { PaginateRequest, TPaginateResponse } from 'src/contracts/common';
 import { PaginateUtil } from 'src/common/utils/paginate.util';
 import { TUser } from 'src/contracts/me/user/user.contract';
+import { UserCreateRequest } from '../requests/user-create.request';
+import { UserPutRequest } from '../requests/user-put.request';
+import { UserPatchRequest } from '../requests/user-patch.request';
 
 @Injectable()
 export class UserRepository {
@@ -18,7 +21,13 @@ export class UserRepository {
     request: PaginateRequest,
   ): Promise<TPaginateResponse<TUser>> {
     const data = await this.repo
-      .select()
+      .select({
+        id: schema.users.id,
+        fullName: schema.users.fullName,
+        email: schema.users.email,
+        createdAt: schema.users.createdAt,
+        updatedAt: schema.users.updatedAt,
+      })
       .from(schema.users)
       .limit(request?.perPage || 10)
       .offset(this.paginateUtil.getCountOffset(request))
@@ -32,20 +41,27 @@ export class UserRepository {
     };
   }
 
-  async create(data: any): Promise<boolean> {
+  async create(data: UserCreateRequest): Promise<boolean> {
     await this.repo.insert(schema.users).values(data);
     return true;
   }
 
   async delete(id: number): Promise<boolean> {
     await this.repo.delete(schema.users).where(eq(schema.users.id, id));
+
     return true;
   }
 
-  async update(id: number, data: any): Promise<boolean> {
+  async update(
+    id: number,
+    data: UserPutRequest | UserPatchRequest,
+  ): Promise<boolean> {
     await this.repo
       .update(schema.users)
-      .set(data)
+      .set({
+        ...data,
+        updatedAt: new Date(),
+      })
       .where(eq(schema.users.id, id));
 
     return true;
@@ -56,6 +72,14 @@ export class UserRepository {
       .select()
       .from(schema.users)
       .where(eq(schema.users.id, id))
+      .then((data) => data[0]);
+  }
+
+  async findOneByEmail(email: string): Promise<TUser> {
+    return await this.repo
+      .select()
+      .from(schema.users)
+      .where(eq(schema.users.email, email))
       .then((data) => data[0]);
   }
 }

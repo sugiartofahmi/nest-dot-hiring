@@ -51,7 +51,7 @@ export class TodoController {
     @Param('id') id: number,
     @Body() request: TodoPutRequest,
   ): Promise<TResponse<TTodo>> {
-    await this.todoService.update(id, request);
+    await this.todoService.putUpdate(id, request);
 
     return {
       message: 'Todo updated successfully',
@@ -63,7 +63,7 @@ export class TodoController {
     @Param('id') id: number,
     @Body() request: TodoPatchRequest,
   ): Promise<TResponse<TTodo>> {
-    await this.todoService.update(id, request);
+    await this.todoService.patchUpdate(id, request);
     return {
       message: 'Todo updated successfully',
     };

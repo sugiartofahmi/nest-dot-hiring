@@ -4,9 +4,9 @@ import { relations } from 'drizzle-orm';
 import { todos } from '../todo/todo.entity';
 
 export const users = pgTable('users', {
-  fullName: text('full_name').notNull(),
-  email: text('email').unique().notNull(),
-  password: text('password').notNull(),
+  fullName: text('full_name'),
+  email: text('email').unique().unique(),
+  password: text('password'),
   ...base,
 });
 

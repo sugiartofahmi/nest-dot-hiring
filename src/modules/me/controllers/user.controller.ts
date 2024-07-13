@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  NotFoundException,
   Param,
   Patch,
   Post,
@@ -33,8 +34,10 @@ export class UserController {
 
   @Get(':id')
   async detail(@Param('id') id: number): Promise<TResponse<TUser>> {
-    const data = await this.userSevice.detail(id);
-
+    const data = await this.userSevice.findOne(id);
+    if (!data) {
+      throw new NotFoundException('User not found');
+    }
     return {
       data,
     };

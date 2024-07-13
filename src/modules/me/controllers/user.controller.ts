@@ -21,7 +21,7 @@ export class UserController {
   }
 
   @Get(':id')
-  async detail(@Param('id') id: string): Promise<any> {
+  async detail(@Param('id') id: number): Promise<any> {
     return this.userSevice.detail(id);
   }
 
@@ -31,25 +31,20 @@ export class UserController {
   }
 
   @Put(':id')
-  async putUpdate(@Param('id') id: string, @Body() request: any): Promise<any> {
+  async putUpdate(@Param('id') id: number, @Body() request: any): Promise<any> {
     return this.userSevice.update(id, request);
   }
 
   @Patch(':id')
   async patchUpdate(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() request: any,
   ): Promise<any> {
     return this.userSevice.update(id, request);
   }
 
   @Delete(':id')
-  async delete(@Param('id') id: string): Promise<any> {
+  async delete(@Param('id') id: number): Promise<any> {
     return this.userSevice.delete(id);
-  }
-
-  @Post('deletes')
-  async bulkDelete(@Body() request: any): Promise<any> {
-    return this.userSevice.bulkDelete(request.ids);
   }
 }

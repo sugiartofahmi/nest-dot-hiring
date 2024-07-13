@@ -25,7 +25,7 @@ export class UserController {
     return this.userSevice.detail(id);
   }
 
-  @Post('create')
+  @Post()
   async create(@Body() request: any): Promise<any> {
     return this.userSevice.create(request);
   }

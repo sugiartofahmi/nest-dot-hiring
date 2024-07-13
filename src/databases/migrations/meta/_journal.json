@@ -8,6 +8,27 @@
       "when": 1720852271435,
       "tag": "0000_old_bruce_banner",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1720859185481,
+      "tag": "0001_curly_dragon_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1720859501783,
+      "tag": "0002_icy_sandman",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1720859851718,
+      "tag": "0003_pale_eternity",
+      "breakpoints": true
     }
   ]
 }

@@ -1,7 +1,7 @@
 import { Global, Module } from '@nestjs/common';
 import { ConfigService, ConfigModule } from '@nestjs/config';
 import { Pool } from 'pg';
-import * as schema from '../../databases/schemas';
+import * as schema from '../../databases/schema';
 import { drizzle } from 'drizzle-orm/node-postgres';
 export const DRIZZLE = 'drizzle';
 @Global()
